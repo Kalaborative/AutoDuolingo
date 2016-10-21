@@ -13,6 +13,7 @@ gotoUsername = 'top_login'
 gotoPassword = 'top_password'
 startpractice = 'Strengthen skills'
 untimed = 'untimed-button'
+timed = 'start-button'
 query = []
 translate_client = translate.Client(api_key)
 h = HTMLParser()
@@ -24,7 +25,7 @@ def isitRight():
     goOn = raw_input("Does this look right? (y/n) ")
     if goOn == 'n':
         print "Please correct it. Type 'ok' when done."
-        okay = raw_input("> ")
+        raw_input("> ")
 
 
 def welcome():
@@ -89,9 +90,17 @@ def set_target(tgl):
 def start_practice():
     skillprac = driver.find_element_by_link_text(startpractice)
     skillprac.click()
-    print "Strengthening skills without timer..."
-    withoutTimer = driver.find_element_by_id(untimed)
-    withoutTimer.click()
+    print "Do you want to"
+    print "(a)Practice without a timer, or"
+    print "(b)Start timed practice"
+    timedOrNot = raw_input("> ")
+    if timedOrNot == 'a':
+        print "Strengthening skills without timer..."
+        withoutTimer = driver.find_element_by_id(untimed)
+        withoutTimer.click()
+    elif timedOrNot == 'b':
+        withTimer = driver.find_element_by_id(timed)
+        withTimer.click()
 
 
 def TranslateEngine():
@@ -109,12 +118,14 @@ def TranslateEngine():
             mark_Cor_trans()
         elif page == 'c':
             type_what_heard()
+        elif page == 'd':
+            driver.quit()
+            exit()
         elif page == 'end':
             finished_Lesson()
             break
         else:
-            driver.quit()
-            exit()
+            print "Please choose a valid option"
 
 
 def type_The_trans():
