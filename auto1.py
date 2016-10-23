@@ -2,7 +2,7 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from time import sleep
 from google.cloud import translate
-from Seqmatch import similarity
+from Seqmatch import similarity, apostrophe_checker
 from HTMLParser import HTMLParser
 from sys import exit
 
@@ -22,10 +22,12 @@ rerun = 'yes'
 
 
 def isitRight():
-    goOn = raw_input("Does this look right? (y/n) ")
-    if goOn == 'n':
-        print "Please correct it. Type 'ok' when done."
-        raw_input("> ")
+        print "Please correct it. Type Enter when done."
+        RightText = raw_input("> ")
+        loadResponse = driver.find_element_by_id('text-input')
+        loadResponse.clear()
+        loadResponse.send_keys(RightText)
+        return 'Corrected'
 
 
 def welcome():
@@ -48,8 +50,10 @@ def setup():
     clickLogin.click()
     print "Logging in..."
     uField = driver.find_element_by_id(gotoUsername)
+    uField.clear()
     uField.send_keys(username)
     pField = driver.find_element_by_id(gotoPassword)
+    pField.clear()
     pField.send_keys(password)
     uField.send_keys(Keys.ENTER)
 
@@ -99,6 +103,7 @@ def start_practice():
         withoutTimer = driver.find_element_by_id(untimed)
         withoutTimer.click()
     elif timedOrNot == 'b':
+        print "Strengthening skills with timer..."
         withTimer = driver.find_element_by_id(timed)
         withTimer.click()
 
@@ -143,23 +148,33 @@ def type_The_trans():
         engToFor = h.unescape(engToFor)
         loadResponse = driver.find_element_by_id('text-input')
         loadResponse.send_keys(engToFor)
-        isitRight()
+        goOn = raw_input("Does this look right? (y/n) ")
+        if goOn == 'n':
+            isitRight()
         loadResponse.send_keys(Keys.ENTER)
     elif setLang == 'it':
+        itText = apostrophe_checker(query)
+        tText = ' '.join(itText)
         itToEng = translate_client.translate(tText, target_language='en')[
             'translatedText']
         itToEng = h.unescape(itToEng)
         loadResponse = driver.find_element_by_id('text-input')
         loadResponse.send_keys(itToEng)
-        isitRight()
+        goOn = raw_input("Does this look right? (y/n) ")
+        if goOn == 'n':
+            isitRight()
         loadResponse.send_keys(Keys.ENTER)
     elif setLang == 'fr':
+        frText = apostrophe_checker(query)
+        tText = ' '.join(frText)
         frToEng = translate_client.translate(tText, target_language='en')[
             'translatedText']
         frToEng = h.unescape(frToEng)
         loadResponse = driver.find_element_by_id('text-input')
         loadResponse.send_keys(frToEng)
-        isitRight()
+        goOn = raw_input("Does this look right? (y/n) ")
+        if goOn == 'n':
+            isitRight()
         loadResponse.send_keys(Keys.ENTER)
     elif setLang == 'de':
         gerToEng = translate_client.translate(tText, target_language='en')[
@@ -167,7 +182,9 @@ def type_The_trans():
         gerToEng = h.unescape(gerToEng)
         loadResponse = driver.find_element_by_id('text-input')
         loadResponse.send_keys(gerToEng)
-        isitRight()
+        goOn = raw_input("Does this look right? (y/n) ")
+        if goOn == 'n':
+            isitRight()
         loadResponse.send_keys(Keys.ENTER)
     elif setLang == 'es':
         spanToEng = translate_client.translate(tText, target_language='en')[
@@ -175,7 +192,9 @@ def type_The_trans():
         spanToEng = h.unescape(spanToEng)
         loadResponse = driver.find_element_by_id('text-input')
         loadResponse.send_keys(spanToEng)
-        isitRight()
+        goOn = raw_input("Does this look right? (y/n) ")
+        if goOn == 'n':
+            isitRight()
         loadResponse.send_keys(Keys.ENTER)
     reset_wait_n_go()
 
@@ -191,18 +210,26 @@ def mark_Cor_trans():
     for choice in choices:
         query.append(choice.text)
     correctedText = similarity(translation, query)
-    print "Which text box has this answer?"
+    tickboxes = driver.find_elements_by_css_selector('.white-label.cb-container-long')
+    for box in tickboxes:
+        if correctedText in box.text:
+            box.click()
+    print "I've selected: "
     print "'" + correctedText + "'"
+    print "If there are more solutions, type it's box number."
+    print "Otherwise, hit enter."
     txtbox = raw_input("> ")
-    if txtbox == '1':
-        tickbox = driver.find_element_by_xpath('//*[@id="sentence-0"]')
-        tickbox.click()
-    elif txtbox == '2':
-        tickbox = driver.find_element_by_xpath('//*[@id="sentence-1"]')
-        tickbox.click()
-    elif txtbox == '3':
-        tickbox = driver.find_element_by_xpath('//*[@id="sentence-2"]')
-        tickbox.click()
+    txtbox = [t for t in txtbox if t.isdigit()]
+    for x in txtbox:
+        if x == '1':
+            tickbox = driver.find_element_by_xpath('//*[@id="sentence-0"]')
+            tickbox.click()
+        elif x == '2':
+            tickbox = driver.find_element_by_xpath('//*[@id="sentence-1"]')
+            tickbox.click()
+        elif x == '3':
+            tickbox = driver.find_element_by_xpath('//*[@id="sentence-2"]')
+            tickbox.click()
     reset_wait_n_go()
     reset_wait_n_go()
 
@@ -210,9 +237,14 @@ def mark_Cor_trans():
 def type_what_heard():
     print "Please type your answer here! Type replay to replay."
     answer = raw_input("> ")
-    while (answer == 'replay'):
-        replay = driver.find_element_by_class_name('speaker-big')
-        replay.click()
+    while 'replay' in answer:
+        slowOrNorm = raw_input("(1) Normal or (2) Slow? ")
+        if slowOrNorm == '1':
+            replay = driver.find_element_by_class_name('speaker-big')
+            replay.click()
+        elif slowOrNorm == '2':
+            replay = driver.find_element_by_class_name('speaker-slow')
+            replay.click()
         answer = raw_input("> ")
     loadResponse = driver.find_element_by_id('word-input')
     loadResponse.send_keys(answer)
@@ -237,10 +269,16 @@ def finished_Lesson():
 welcome()
 setup()
 while (rerun == 'yes'):
-    detect_my_language()
-    start_practice()
-    TranslateEngine()
-    rerun = raw_input("Run again? Type yes or no: ")
+    try:
+        detect_my_language()
+        start_practice()
+        TranslateEngine()
+        rerun = raw_input("Run again? Type yes or no: ")
+    except:
+        print "Your login info was incorrect. Please try again!"
+        clickLogin = driver.find_element_by_id(signIn)
+        clickLogin.click()
+        setup()
 print "Closing down the window..."
 sleep(3)
 driver.quit()
