@@ -14,6 +14,7 @@ def similarity(sing, itr):
 
 
 def apostrophe_checker(inpList):
+    inpList = list(inpList)
     for q in inpList:
         if "'" in q:
             foundApos = inpList.index(q)
@@ -22,6 +23,5 @@ def apostrophe_checker(inpList):
             AposWord = "".join(inpList[AposSliced])
             newList = [q for q in inpList if q not in tText]
             newList.insert(foundApos, AposWord)
-            return newList
-        else:
-            return inpList
+            inpList = newList
+    return inpList
