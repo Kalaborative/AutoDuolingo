@@ -38,7 +38,7 @@ def welcome():
     print "Launching page..."
     global driver
     driver = driver.Chrome()
-    driver.implicitly_wait(30)
+    driver.implicitly_wait(10)
     driver.maximize_window()
     driver.get("https://www.duolingo.com")
 
@@ -115,15 +115,19 @@ def TranslateEngine():
         print "a: Type the translation"
         print "b: Mark correct translations"
         print "c: Speech to text translation"
-        print "d: Quit the program"
+        print "d: Select missing word"
+        print "e: Quit the program"
         page = raw_input("> ")
         if page == 'a':
+            sleep(1)
             type_The_trans()
         elif page == 'b':
             mark_Cor_trans()
         elif page == 'c':
             type_what_heard()
         elif page == 'd':
+            select_missing()
+        elif page == 'e':
             driver.quit()
             exit()
         elif page == 'end':
@@ -249,6 +253,30 @@ def type_what_heard():
     loadResponse = driver.find_element_by_id('word-input')
     loadResponse.send_keys(answer)
     loadResponse.send_keys(Keys.ENTER)
+    reset_wait_n_go()
+
+
+def select_missing():
+    wordchoices = driver.find_elements_by_xpath('//option')
+    wordchoices = wordchoices[1:]
+    wordbank = []
+    for word in wordchoices:
+        wordbank.append(word.text)
+    print "Your choices are: "
+    mult = ['A] ', 'B] ', 'C] ', 'D] ', 'E] ']
+    stack = zip(mult, wordbank)
+    for s in stack:
+        print s[0], s[1]
+    chosen = raw_input("Which do you choose? ").upper()
+    for s in stack:
+        if chosen in s[0]:
+            print "You chose " + s[1] + "!"
+            goodword = s[1]
+    driver.find_element_by_tag_name('select').click()
+    for xpaths in wordchoices:
+        if xpaths.text == goodword:
+            xpaths.click()
+    reset_wait_n_go()
     reset_wait_n_go()
 
 
