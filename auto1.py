@@ -60,7 +60,7 @@ def setup():
     pField.send_keys(password)
     uField.send_keys(Keys.ENTER)
 
-
+# detects the language functionality
 def detect_my_language():
     print( "Autodetecting language...")
     sleep(8)
