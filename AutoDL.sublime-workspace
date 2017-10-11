@@ -1,0 +1,374 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"find_element",
+				"find_element_by_xpath"
+			],
+			[
+				"find_element_by_",
+				"find_element_by_class_name"
+			],
+			[
+				"cli",
+				"client_secret\tparam"
+			],
+			[
+				"type",
+				"type\tparam"
+			],
+			[
+				"wid",
+				"width"
+			],
+			[
+				"logi",
+				"login_required\tfunction"
+			],
+			[
+				"al",
+				"allDislikes"
+			],
+			[
+				"fet",
+				"fetchall"
+			],
+			[
+				"curr",
+				"currentNameData"
+			],
+			[
+				"connec",
+				"connection"
+			],
+			[
+				"cone",
+				"convention"
+			],
+			[
+				"name",
+				"nameDataName"
+			],
+			[
+				"cu",
+				"currentNameData"
+			],
+			[
+				"firs",
+				"firstUserData"
+			],
+			[
+				"curre",
+				"currentName"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "auto1.py",
+			"settings":
+			{
+				"buffer_size": 10366,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "quicktrans.py",
+			"settings":
+			{
+				"buffer_size": 2626,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		}
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 392.0,
+		"last_filter": "pack",
+		"selected_items":
+		[
+			[
+				"pack",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 400.0
+	},
+	"console":
+	{
+		"height": 0.0,
+		"history":
+		[
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/C/Users/kalab/AutoDuolingo"
+	],
+	"file_history":
+	[
+		"/C/Users/kalab/AppData/Local/Programs/Python/Python36-32/Lib/site-packages/spotipy/oauth2.py",
+		"/C/Users/kalab/funny_api/pi.py",
+		"/C/Users/kalab/StageR/static/js/ap.js",
+		"/C/Users/kalab/StageR/templates/feature.html",
+		"/C/Users/kalab/StageR/app.py",
+		"/C/Users/kalab/StageR/templates/index.html",
+		"/C/Users/kalab/StageR/templates/public.html",
+		"/C/Users/kalab/StageR/templates/fulllog.html",
+		"/C/Users/kalab/StageR/templates/log.html",
+		"/C/Users/kalab/StageR/static/css/ap.css",
+		"/C/Users/kalab/StageR/templates/login.html",
+		"/C/Users/kalab/StageR/templates/error.html",
+		"/C/Users/kalab/StageR/setupsql.py",
+		"/C/Users/kalab/StageR/static/css/loginform.css",
+		"/C/Users/kalab/StageR/static/css/cake.css",
+		"/C/Users/kalab/AppData/Roaming/Sublime Text 3/Packages/Anaconda/Anaconda.sublime-settings",
+		"/C/Users/kalab/AppData/Roaming/Sublime Text 3/Packages/User/Anaconda.sublime-settings",
+		"/C/Users/kalab/StageR/static/css/style.css",
+		"/C/Users/kalab/StageR/templates/stats.html",
+		"/C/Users/kalab/StageR/static/js/like-dislike.js"
+	],
+	"find":
+	{
+		"height": 34.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"raw_input",
+			"h ",
+			"h",
+			"print",
+			"spotify",
+			"callback",
+			"player",
+			"image",
+			"j",
+			"playSvgPath",
+			"repeatBtn",
+			"nextBtn",
+			"prevBt",
+			"prevBtn",
+			"Rez",
+			"playSvgPath",
+			"print"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"print("
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": false
+	},
+	"groups":
+	[
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "auto1.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 10366,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								290,
+								290
+							]
+						],
+						"settings":
+						{
+							"auto_complete_triggers":
+							[
+								{
+									"characters": ".",
+									"selector": "source.python - string - comment - constant.numeric"
+								},
+								{
+									"characters": ".",
+									"selector": "source.python - string - constant.numeric"
+								},
+								{
+									"characters": ".",
+									"selector": "source.python - string - constant.numeric"
+								}
+							],
+							"syntax": "Packages/Djaneiro/Syntaxes/Python Django.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "quicktrans.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2626,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1740,
+								1740
+							]
+						],
+						"settings":
+						{
+							"auto_complete_triggers":
+							[
+								{
+									"characters": ".",
+									"selector": "source.python - string - comment - constant.numeric"
+								},
+								{
+									"characters": ".",
+									"selector": "source.python - string - constant.numeric"
+								}
+							],
+							"syntax": "Packages/Djaneiro/Syntaxes/Python Django.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 900.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 23.0
+	},
+	"input":
+	{
+		"height": 31.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "AutoDL.sublime-project",
+	"replace":
+	{
+		"height": 62.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 150.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}
