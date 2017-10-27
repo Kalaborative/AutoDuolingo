@@ -1,6 +1,8 @@
 # import necessary modules
 from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.keys import Keys
+from selenium.common.exceptions import StaleElementReferenceException
 from time import sleep
 from google.cloud import translate
 from Seqmatch import similarity, apostrophe_checker
@@ -36,12 +38,20 @@ def isitRight():
 
 def welcome():
     print( "Welcome to the AutoDuolingo program!")
-    sleep(3)
+    sleep(1)
     print( "Lets get started, shall we?")
-    sleep(3)
+    sleep(1)
     print( "Launching page...")
     global driver
-    driver = driver.Chrome()
+    chrome_options = Options()
+    chrome_options.add_experimental_option('prefs', {
+        'credentials_enable_service': False,
+        'profile': {
+            'password_manager_enabled': False
+        }
+    })
+    chrome_options.add_argument('disable-infobars')
+    driver = driver.Chrome(chrome_options=chrome_options)
     driver.implicitly_wait(20)
     driver.get("https://www.duolingo.com")
 
@@ -63,7 +73,7 @@ def setup():
 
 def detect_my_language():
     print( "Autodetecting language...")
-    sleep(8)
+    sleep(1)
     detLang = driver.find_element_by_tag_name('h1')
     myLanguage = detLang.text
     languageFilter = ['Italian', 'French', 'German', 'Spanish']
@@ -112,43 +122,42 @@ def start_practice():
 
 
 def TranslateEngine():
+    print("Type 'end' if at the end, or 'quit' to quit.")
+    print("Else, just hit enter.")
     while True:
-        print
-        print( "What type of page am I on? Type 'end' when you've reached the end.")
-        print( "a: Type the translation")
-        print( "b: Mark correct translations")
-        print( "c: Speech to text translation")
-        print( "d: Select missing word")
-        print( "e: Quit the program")
-        page = input("> ")
-        if page == 'a':
-            sleep(1)
-            type_The_trans()
-        elif page == 'b':
-            mark_Cor_trans()
-        elif page == 'c':
-            type_what_heard()
-        elif page == 'd':
-            select_missing()
-        elif page == 'e':
-            driver.quit()
-            exit()
-        elif page == 'end':
+        my_choice = input("> ")
+        if my_choice == "end":
             finished_Lesson()
             break
+        elif my_choice == "quit":
+            driver.quit()
+            exit()
         else:
-            print( "Please choose a valid option")
+            header_text = driver.find_element_by_xpath('//*[@data-test="challenge-header"]').text
+            if "Write this" in header_text:
+                type_The_trans()
+            elif "Type what you hear" in header_text:
+                type_what_heard()
+            elif "correct meanings" in header_text:
+                mark_Cor_trans()
+            else:
+                print( "What type of page am I on? Type 'end' when you've reached the end.")
+                print( "d: Select missing word")
+                page = input("> ")
+                if page == 'd':
+                    select_missing()
+                else:
+                    print( "Please choose a valid option")
 
 
 def type_The_trans():
-    global query
+    query = []
     sText = driver.find_elements_by_xpath('//*[@data-test="hint-token"]')
     for q in sText:
         query.append(q.text)
     tText = ' '.join(query)
     setLang = translate_client.detect_language(tText)['language']
-    sleep(3)
-
+    sleep(1)
     if setLang == 'en':
         engToFor = translate_client.translate(tText, target_language=targLang)[
             'translatedText']
@@ -285,15 +294,20 @@ def select_missing():
 
 def reset_wait_n_go():
     del query[:]
-    sleep(3)
+    sleep(1)
     nextplease = driver.find_element_by_xpath("//*[@data-test='player-next']")
     nextplease.click()
 
 
 def finished_Lesson():
     print( "We made it! Yay!")
-    cont = driver.find_element_by_xpath("//*[@data-test='player-next']")
-    cont.click()
+    print( "Loading home page...")
+    try:
+        while True:
+            cont = driver.find_element_by_xpath("//*[@data-test='player-next']")
+            cont.click()
+    except:
+        pass
 
 
 # Commands listed here.
@@ -307,10 +321,7 @@ while (rerun == 'yes'):
         rerun = input("Run again? Type yes or no: ")
     except Exception as e:
         print(e)
-        print( "Your login info was incorrect. Please try again!")
-        clickLogin = driver.find_element_by_id(signIn)
-        clickLogin.click()
-        setup()
+        break
 print( "Closing down the window...")
-sleep(3)
+sleep(1)
 driver.quit()
