@@ -208,15 +208,8 @@ def mark_Cor_trans():
     txtbox = input("> ")
     txtbox = [t for t in txtbox if t.isdigit()]
     for x in txtbox:
-        if x == '1':
-            tickbox = driver.find_element_by_xpath("//*[@data-test='challenge-judge-options']//li[1]/label/div[2]")
-            tickbox.click()
-        elif x == '2':
-            tickbox = driver.find_element_by_xpath("//*[@data-test='challenge-judge-options']//li[2]/label/div[2]")
-            tickbox.click()
-        elif x == '3':
-            tickbox = driver.find_element_by_xpath("//*[@data-test='challenge-judge-options']//li[3]/label/div[2]")
-            tickbox.click()
+        tickbox = driver.find_element_by_xpath("//*[@data-test='challenge-judge-options']//li[{}]/label/div[2]".format(x))
+        tickbox.click()
     reset_wait_n_go()
     reset_wait_n_go()
 
