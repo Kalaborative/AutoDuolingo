@@ -2,6 +2,9 @@
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 from time import sleep
 from google.cloud import translate
 from Seqmatch import similarity, apostrophe_checker
@@ -19,7 +22,6 @@ gotoPassword = 'top_password'
 startpractice = 'Strengthen skills'
 untimed = '_1pp2C'
 timed = '_3XJPq'
-query = []
 translate_client = translate.Client()
 h = HTMLParser()
 targLang = ''
@@ -52,6 +54,7 @@ def welcome():
     chrome_options.add_argument('disable-infobars')
     driver = driver.Chrome(chrome_options=chrome_options)
     driver.implicitly_wait(20)
+    driver.maximize_window()
     driver.get("https://www.duolingo.com")
 
 
@@ -167,46 +170,14 @@ def type_The_trans():
         if goOn == 'n':
             isitRight()
         loadResponse.send_keys(Keys.ENTER)
-    elif setLang == 'it':
-        itText = apostrophe_checker(query)
-        tText = ' '.join(itText)
-        itToEng = translate_client.translate(tText, target_language='en')[
+    else:
+        foreign_text = apostrophe_checker(query)
+        tText = ' '.join(foreign_text)
+        foreignToEng = translate_client.translate(tText, target_language='en')[
             'translatedText']
-        itToEng = h.unescape(itToEng)
+        foreignToEng = h.unescape(foreignToEng)
         loadResponse = driver.find_element_by_xpath('//*[@data-test="challenge-translate-input"]')
-        loadResponse.send_keys(itToEng)
-        goOn = input("Does this look right? (y/n) ")
-        if goOn == 'n':
-            isitRight()
-        loadResponse.send_keys(Keys.ENTER)
-    elif setLang == 'fr':
-        frText = apostrophe_checker(query)
-        tText = ' '.join(frText)
-        frToEng = translate_client.translate(tText, target_language='en')[
-            'translatedText']
-        frToEng = h.unescape(frToEng)
-        loadResponse = driver.find_element_by_xpath('//*[@data-test="challenge-translate-input"]')
-        loadResponse.send_keys(frToEng)
-        goOn = input("Does this look right? (y/n) ")
-        if goOn == 'n':
-            isitRight()
-        loadResponse.send_keys(Keys.ENTER)
-    elif setLang == 'de':
-        gerToEng = translate_client.translate(tText, target_language='en')[
-            'translatedText']
-        gerToEng = h.unescape(gerToEng)
-        loadResponse = driver.find_element_by_xpath('//*[@data-test="challenge-translate-input"]')
-        loadResponse.send_keys(gerToEng)
-        goOn = input("Does this look right? (y/n) ")
-        if goOn == 'n':
-            isitRight()
-        loadResponse.send_keys(Keys.ENTER)
-    elif setLang == 'es':
-        spanToEng = translate_client.translate(tText, target_language='en')[
-            'translatedText']
-        spanToEng = h.unescape(spanToEng)
-        loadResponse = driver.find_element_by_xpath('//*[@data-test="challenge-translate-input"]')
-        loadResponse.send_keys(spanToEng)
+        loadResponse.send_keys(foreignToEng)
         goOn = input("Does this look right? (y/n) ")
         if goOn == 'n':
             isitRight()
@@ -215,6 +186,7 @@ def type_The_trans():
 
 
 def mark_Cor_trans():
+    query = []
     initsentence = driver.find_element_by_class_name('KRKEd')
     text = initsentence.text
     translation = translate_client.translate(
@@ -230,7 +202,7 @@ def mark_Cor_trans():
         if correctedText in box.text:
             box.click()
     print( "I've selected: ")
-    print( "'" + correctedText + "'")
+    print( correctedText )
     print( "If there are more solutions, type it's box number.")
     print( "Otherwise, hit enter.")
     txtbox = input("> ")
@@ -292,10 +264,11 @@ def select_missing():
 
 
 def reset_wait_n_go():
-    del query[:]
-    sleep(1)
-    nextplease = driver.find_element_by_xpath("//*[@data-test='player-next']")
-    nextplease.click()
+    next_button = WebDriverWait(driver, 15).until(
+        EC.element_to_be_clickable((By.XPATH, "//*[@data-test='player-next']"))
+        )
+    next_button = driver.find_element_by_xpath("//*[@data-test='player-next']")
+    next_button.click()
 
 
 def finished_Lesson():
@@ -319,7 +292,7 @@ while (rerun == 'yes'):
         TranslateEngine()
         rerun = input("Run again? Type yes or no: ")
     except Exception as e:
-        print(e)
+        raise e
         break
 print( "Closing down the window...")
 sleep(1)
