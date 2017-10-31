@@ -2,7 +2,6 @@
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.keys import Keys
-from selenium.common.exceptions import StaleElementReferenceException
 from time import sleep
 from google.cloud import translate
 from Seqmatch import similarity, apostrophe_checker
