@@ -1,0 +1,5 @@
+{
+  "autodev.py": true,
+  "test_len.py::test_mylen": true,
+  "test_len.py::test_slice": true
+}

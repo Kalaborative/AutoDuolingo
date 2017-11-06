@@ -181,14 +181,11 @@ def TranslateEngine():
                 type_what_heard()
             elif "correct meanings" in header_text:
                 mark_Cor_trans()
+            elif "Select the missing word" in header_text:
+                select_missing()
             else:
                 print( "What type of page am I on? Type 'end' when you've reached the end.")
-                print( "d: Select missing word")
                 page = input("> ")
-                if page == 'd':
-                    select_missing()
-                else:
-                    print( "Please choose a valid option")
 
 
 def type_The_trans():
@@ -272,25 +269,20 @@ def type_what_heard():
 
 
 def select_missing():
-    wordchoices = driver.find_elements_by_xpath('//option')
-    wordchoices = wordchoices[1:]
+    all_words = driver.find_elements_by_xpath("//*[@data-test='challenge-select']")
     wordbank = []
-    for word in wordchoices:
+    for word in all_words:
         wordbank.append(word.text)
+    words = [w[2:] for w in wordbank]
+    numbers = [w[0] + "] " for w in wordbank] 
     print( "Your choices are: ")
-    mult = ['A] ', 'B] ', 'C] ', 'D] ', 'E] ']
-    stack = zip(mult, wordbank)
+    stack = list(zip(numbers, words))
     for s in stack:
         print( s[0], s[1])
-    chosen = input("Which do you choose? ").upper()
-    for s in stack:
-        if chosen in s[0]:
-            print( "You chose " + s[1] + "!")
-            goodword = s[1]
-    driver.find_element_by_tag_name('select').click()
-    for xpaths in wordchoices:
-        if xpaths.text == goodword:
-            xpaths.click()
+    number_choice = input("Which do you choose? ")
+    for word in all_words:
+        if number_choice in word.text:
+            word.click()
     reset_wait_n_go()
     reset_wait_n_go()
 
