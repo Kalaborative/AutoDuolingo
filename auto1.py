@@ -106,9 +106,48 @@ def set_target(tgl):
         targLang = 'es'
 
 
+def skill_or_practice():
+	print("Do you want to (A)strengthen skills or (B)practice a topic?")
+	target = input("> ")
+	if target.lower() == "a":
+		skillprac = driver.find_element_by_link_text(startpractice)
+		skillprac.click()
+		start_practice()
+	elif target.lower() == "b":
+		practice_topic()
+		start_practice()
+	else:
+		print("choose a valid option.")
+		skill_or_practice()
+
+def practice_topic():
+	skills = driver.find_elements_by_css_selector('._3qO9M')
+
+	list_of_skills = []
+	for skill in skills:
+		list_of_skills.append(skill.text)
+
+	desired_skill = input("Which skill would you like to learn? ")
+
+	matching_skills = [skill for skill in list_of_skills if desired_skill in skill]
+
+	if len(matching_skills) > 1:
+		print("Matching choices are: ")
+		for skill in matching_skills:
+			print(skill)
+		print("Which one do you choose? ")
+		chosen_skill = input()
+	elif len(matching_skills) == 0:
+		print("Could not find a matching skill.")
+		exit()
+	else:
+		chosen_skill = matching_skills[0]
+
+	driver.find_element_by_partial_link_text(chosen_skill).click()
+	driver.find_element_by_xpath('//*[@data-test="skill-header-practice-button"]').click()	
+
+
 def start_practice():
-    skillprac = driver.find_element_by_link_text(startpractice)
-    skillprac.click()
     print( "Do you want to")
     print( "(a)Practice without a timer, or")
     print( "(b)Start timed practice")
@@ -272,21 +311,22 @@ def finished_Lesson():
             cont = driver.find_element_by_xpath("//*[@data-test='player-next']")
             cont.click()
     except:
-        pass
+        driver.find_element_by_xpath("//*[@data-test='topbar-logo']").click()
 
 
 # Commands listed here.
-welcome()
-setup()
-while (rerun == 'yes'):
-    try:
-        detect_my_language()
-        start_practice()
-        TranslateEngine()
-        rerun = input("Run again? Type yes or no: ")
-    except Exception as e:
-        raise e
-        break
-print( "Closing down the window...")
-sleep(1)
-driver.quit()
+if __name__ == "__main__":
+	welcome()
+	setup()
+	while (rerun == 'yes'):
+	    try:
+	        detect_my_language()
+	        skill_or_practice()
+	        TranslateEngine()
+	        rerun = input("Run again? Type yes or no: ")
+	    except Exception as e:
+	        raise e
+	        break
+	print( "Closing down the window...")
+	sleep(1)
+	driver.quit()
