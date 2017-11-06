@@ -1,3 +1,4 @@
+[![codebeat badge](https://codebeat.co/badges/c65ff2d6-63ce-44e2-aa28-d39baeb50720)](https://codebeat.co/projects/github-com-kalaborative-autoduolingo-master)
 # AutoDuolingo
 In this project, we make it easy for you to solve exercises on Duolingo. You can choose either Spanish, French, German, or Italian in AutoDuolingo and the set up is quick an easy!
 
