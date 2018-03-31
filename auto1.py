@@ -110,8 +110,7 @@ def skill_or_practice():
 	print("Do you want to (A)strengthen skills or (B)practice a topic?")
 	target = input("> ")
 	if target.lower() == "a":
-		skillprac = driver.find_element_by_link_text(startpractice)
-		skillprac.click()
+		driver.get('https://duolingo.com/practice')
 		start_practice()
 	elif target.lower() == "b":
 		practice_topic()
