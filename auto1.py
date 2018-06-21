@@ -19,6 +19,7 @@ api_key = 'AIzaSyAdiQFUXy5Dgr4coKTWwWJllIM5oVRUruc'
 signIn = 'sign-in-btn'
 gotoUsername = 'top_login'
 gotoPassword = 'top_password'
+wrongChallenges = []
 startpractice = 'Strengthen skills'
 untimed = '_1pp2C'
 timed = '_3XJPq'
@@ -53,10 +54,9 @@ def welcome():
     })
     chrome_options.add_argument('disable-infobars')
     driver = driver.Chrome(chrome_options=chrome_options)
-    driver.implicitly_wait(20)
+    driver.implicitly_wait(5)
     driver.maximize_window()
     driver.get("https://www.duolingo.com")
-
 
 def setup():
     username = input("Please type your username: ")
@@ -70,7 +70,8 @@ def setup():
     pField = driver.find_element_by_id(gotoPassword)
     pField.clear()
     pField.send_keys(password)
-    uField.send_keys(Keys.ENTER)
+    driver.find_element_by_id('login-button').click()
+    WebDriverWait(driver, 15).until(EC.visibility_of_element_located((By.CLASS_NAME, "_6t5Uh")))
 
 # detects the language functionality
 def detect_my_language():
@@ -79,6 +80,7 @@ def detect_my_language():
     detLang = driver.find_element_by_tag_name('h1')
     myLanguage = detLang.text
     languageFilter = ['Italian', 'French', 'German', 'Spanish']
+    tgl = None
     for lang in languageFilter:
         if lang in myLanguage:
             tgl = lang
@@ -114,36 +116,36 @@ def skill_or_practice():
 		start_practice()
 	elif target.lower() == "b":
 		practice_topic()
-		start_practice()
 	else:
 		print("choose a valid option.")
 		skill_or_practice()
 
 def practice_topic():
-	skills = driver.find_elements_by_css_selector('._3qO9M')
+    skills = driver.find_elements_by_css_selector('._3qO9M')
 
-	list_of_skills = []
-	for skill in skills:
-		list_of_skills.append(skill.text)
+    list_of_skills = []
+    for skill in skills:
+    	list_of_skills.append(skill.text)
 
-	desired_skill = input("Which skill would you like to learn? ")
+    desired_skill = input("Which skill would you like to learn? ")
 
-	matching_skills = [skill for skill in list_of_skills if desired_skill in skill]
+    matching_skills = [skill for skill in list_of_skills if desired_skill in skill]
 
-	if len(matching_skills) > 1:
-		print("Matching choices are: ")
-		for skill in matching_skills:
-			print(skill)
-		print("Which one do you choose? ")
-		chosen_skill = input()
-	elif len(matching_skills) == 0:
-		print("Could not find a matching skill.")
-		exit()
-	else:
-		chosen_skill = matching_skills[0]
+    if len(matching_skills) > 1:
+    	print("Matching choices are: ")
+    	for skill in matching_skills:
+    		print(skill)
+    	print("Which one do you choose? ")
+    	chosen_skill = input()
+    elif len(matching_skills) == 0:
+    	print("Could not find a matching skill.")
+    	exit()
+    else:
+    	chosen_skill = matching_skills[0]
 
-	driver.find_element_by_partial_link_text(chosen_skill).click()
-	driver.find_element_by_xpath('//*[@data-test="skill-header-practice-button"]').click()	
+    driver.find_element_by_partial_link_text(chosen_skill).click()
+    sleep(1)
+    driver.find_element_by_class_name('_3ntRm').click()
 
 
 def start_practice():
@@ -165,30 +167,26 @@ def TranslateEngine():
     print("Type 'end' if at the end, or 'quit' to quit.")
     print("Else, just hit enter.")
     while True:
-        my_choice = input("> ")
-        if my_choice == "end":
-            finished_Lesson()
-            break
-        elif my_choice == "quit":
-            driver.quit()
-            exit()
-        else:
+        try:
+            sleep(1)
             header_text = driver.find_element_by_xpath('//*[@data-test="challenge-header"]').text
             if "Write this" in header_text:
                 type_The_trans()
             elif "Type what you hear" in header_text:
                 type_what_heard()
-            elif "correct meanings" in header_text:
+            elif "correct meaning" in header_text:
                 mark_Cor_trans()
             elif "Select the missing word" in header_text:
                 select_missing()
-            else:
-                print( "What type of page am I on? Type 'end' when you've reached the end.")
-                page = input("> ")
+        except:
+            finished_Lesson()
+            break
 
 
 def type_The_trans():
     query = []
+    badResponse = ["Correct solution:", "used the wrong word", "plural", "instead of"]
+    global wrongChallenges
     sText = driver.find_elements_by_xpath('//*[@data-test="hint-token"]')
     for q in sText:
         query.append(q.text)
@@ -199,24 +197,42 @@ def type_The_trans():
         engToFor = translate_client.translate(tText, target_language=targLang)[
             'translatedText']
         engToFor = h.unescape(engToFor)
-        loadResponse = driver.find_element_by_xpath('//*[@data-test="challenge-translate-input"]')
+        try:
+            loadResponse = driver.find_element_by_xpath('//*[@data-test="challenge-translate-input"]')
+        except:
+            driver.find_element_by_class_name('_2TNr1').click()
+            loadResponse = driver.find_element_by_xpath('//*[@data-test="challenge-translate-input"]')
         loadResponse.send_keys(engToFor)
-        goOn = input("Does this look right? (y/n) ")
-        if goOn == 'n':
+        if tText in wrongChallenges:
+            print("This question was counted wrong before. Please type the correct answer.")
+            wrongChallenges.remove(tText)
             isitRight()
         loadResponse.send_keys(Keys.ENTER)
+        h2 = driver.find_element_by_tag_name('h2')
+        for b in badResponse:
+            if b in h2.text:
+                wrongChallenges.append(tText)
     else:
         foreign_text = apostrophe_checker(query)
         tText = ' '.join(foreign_text)
         foreignToEng = translate_client.translate(tText, target_language='en')[
             'translatedText']
         foreignToEng = h.unescape(foreignToEng)
-        loadResponse = driver.find_element_by_xpath('//*[@data-test="challenge-translate-input"]')
+        try:
+            loadResponse = driver.find_element_by_xpath('//*[@data-test="challenge-translate-input"]')
+        except:
+            driver.find_element_by_class_name('_2TNr1').click()
+            loadResponse = driver.find_element_by_xpath('//*[@data-test="challenge-translate-input"]')
         loadResponse.send_keys(foreignToEng)
-        goOn = input("Does this look right? (y/n) ")
-        if goOn == 'n':
+        if tText in wrongChallenges:
+            print("This question was counted wrong before. Please type the correct answer.")
+            wrongChallenges.remove(tText)
             isitRight()
         loadResponse.send_keys(Keys.ENTER)
+        h2 = driver.find_element_by_tag_name('h2')
+        for b in badResponse:
+            if b in h2.text:
+                wrongChallenges.append(tText)
     reset_wait_n_go()
 
 
@@ -261,7 +277,7 @@ def type_what_heard():
             replay = driver.find_element_by_class_name('_jK6-')
             replay.click()
         answer = input("> ")
-    loadResponse = driver.find_element_by_xpath("//*[@data-test='challenge-listen-input']")
+    loadResponse = driver.find_element_by_xpath("//*[@data-test='challenge-listentap-input']")
     loadResponse.send_keys(answer)
     loadResponse.send_keys(Keys.ENTER)
     reset_wait_n_go()
@@ -297,12 +313,13 @@ def reset_wait_n_go():
 def finished_Lesson():
     print( "We made it! Yay!")
     print( "Loading home page...")
+    sleep(3)
     try:
         while True:
             cont = driver.find_element_by_xpath("//*[@data-test='player-next']")
             cont.click()
     except:
-        driver.find_element_by_xpath("//*[@data-test='topbar-logo']").click()
+        driver.get("https://duolingo.com")
 
 
 # Commands listed here.
