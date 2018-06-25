@@ -185,7 +185,7 @@ def TranslateEngine():
 
 def type_The_trans():
     query = []
-    badResponse = ["Correct solution:", "used the wrong word", "plural", "instead of"]
+    badResponse = ["Correct solution:", "used the wrong word", "plural", "instead of", "need the", "missed a word"]
     global wrongChallenges
     sText = driver.find_elements_by_xpath('//*[@data-test="hint-token"]')
     for q in sText:
@@ -318,6 +318,7 @@ def finished_Lesson():
         while True:
             cont = driver.find_element_by_xpath("//*[@data-test='player-next']")
             cont.click()
+            sleep(1)
     except:
         driver.get("https://duolingo.com")
 
