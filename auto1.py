@@ -145,8 +145,15 @@ def practice_topic():
 
     driver.find_element_by_partial_link_text(chosen_skill).click()
     sleep(1)
-    driver.find_element_by_class_name('_3ntRm').click()
-
+    print("Would you like to test out this skill? Y or N")
+    test_out = input("> ")
+    if test_out.lower() == "y":
+        driver.find_element_by_class_name('_1Le6e').click()
+        WebDriverWait(driver, 15).until(EC.visibility_of_element_located((By.TAG_NAME, "h2")))
+        sleep(1)
+        driver.find_element_by_class_name('_3XJPq').click()
+    else:
+        driver.find_element_by_class_name('_3ntRm').click()
 
 def start_practice():
     print( "Do you want to")
@@ -185,7 +192,7 @@ def TranslateEngine():
 
 def type_The_trans():
     query = []
-    badResponse = ["Correct solution:", "used the wrong word", "plural", "instead of", "need the", "missed a word"]
+    badResponse = ["Correct solution", "used the wrong word", "plural", "instead of", "need the", "missed a word"]
     global wrongChallenges
     sText = driver.find_elements_by_xpath('//*[@data-test="hint-token"]')
     for q in sText:
