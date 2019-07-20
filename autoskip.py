@@ -7,7 +7,13 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from time import sleep
 
-print( "Here we go!")
+print("Here we go!")
+print('Enter email: ')
+email = input()
+print('Enter pass: ')
+passw = input()
+
+
 global driver
 driver = webdriver
 chrome_options = Options()
@@ -20,14 +26,10 @@ chrome_options.add_experimental_option('prefs', {
 chrome_options.add_argument('disable-infobars')
 driver = driver.Chrome(options=chrome_options)
 driver.implicitly_wait(5)
-driver.maximize_window()
+#driver.maximize_window()
 driver.get("https://www.duolingo.com/log-in")
-eF = driver.find_element_by_xpath('/html/body/div[5]/div/div/form/div[1]/label[1]/div/input')
-print('\nEnter email: ')
-eF.send_keys(input())
-pF = driver.find_element_by_xpath('/html/body/div[5]/div/div/form/div[1]/label[2]/div/input')
-print('\nEnter password: ')
-pF.send_keys(input())
+driver.find_element_by_xpath('/html/body/div[5]/div/div/form/div[1]/label[1]/div/input').send_keys(email)
+driver.find_element_by_xpath('/html/body/div[5]/div/div/form/div[1]/label[2]/div/input').send_keys(passw)
 driver.find_element_by_xpath('/html/body/div[5]/div/div/form/button').click()
 sleep(5)
 
