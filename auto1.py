@@ -29,6 +29,7 @@ targLang = ''
 rerun = 'yes'
 
 
+
 def isitRight():
         print( "Please correct it. Type Enter when done.")
         RightText = input("> ")
@@ -53,7 +54,7 @@ def welcome():
         }
     })
     chrome_options.add_argument('disable-infobars')
-    driver = driver.Chrome(chrome_options=chrome_options)
+    driver = driver.Chrome(options=chrome_options)
     driver.implicitly_wait(5)
     driver.maximize_window()
     driver.get("https://www.duolingo.com")
