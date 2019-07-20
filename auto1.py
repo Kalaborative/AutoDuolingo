@@ -13,7 +13,8 @@ from sys import exit
 import os
 
 # set global vars
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "Avid_influence.json"
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "cloudcreds.json"
+#os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "Avid_influence.json"
 driver = webdriver
 api_key = 'AIzaSyAdiQFUXy5Dgr4coKTWwWJllIM5oVRUruc'
 signIn = 'sign-in-btn'
@@ -40,11 +41,7 @@ def isitRight():
 
 
 def welcome():
-    print( "Welcome to the AutoDuolingo program!")
-    sleep(1)
-    print( "Lets get started, shall we?")
-    sleep(1)
-    print( "Launching page...")
+    print( "Here we go!")
     global driver
     chrome_options = Options()
     chrome_options.add_experimental_option('prefs', {
@@ -57,73 +54,21 @@ def welcome():
     driver = driver.Chrome(options=chrome_options)
     driver.implicitly_wait(5)
     driver.maximize_window()
-    driver.get("https://www.duolingo.com")
-
-def setup():
-    username = input("Please type your username: ")
-    password = input("And your password: ")
-    clickLogin = driver.find_element_by_id(signIn)
-    clickLogin.click()
-    print( "Logging in...")
-    uField = driver.find_element_by_id(gotoUsername)
-    uField.clear()
-    uField.send_keys(username)
-    pField = driver.find_element_by_id(gotoPassword)
-    pField.clear()
-    pField.send_keys(password)
-    driver.find_element_by_id('login-button').click()
-    WebDriverWait(driver, 15).until(EC.visibility_of_element_located((By.CLASS_NAME, "_6t5Uh")))
-
-# detects the language functionality
-def detect_my_language():
-    print( "Autodetecting language...")
-    sleep(1)
-    detLang = driver.find_element_by_tag_name('h1')
-    myLanguage = detLang.text
-    languageFilter = ['Italian', 'French', 'German', 'Spanish']
-    tgl = None
-    for lang in languageFilter:
-        if lang in myLanguage:
-            tgl = lang
-    print( "The program detected you are learning %s. Is this correct?" % tgl)
-    langConfirm = input("Type 'yes' or 'no': > ")
-    if langConfirm == 'yes':
-        print( "Great!")
-        tgl = tgl.lower()
-    elif langConfirm == 'no':
-        print( "What language are you learning?")
-        tgl = input("> ")
-        tgl = tgl.lower()
-    set_target(tgl)
-
-
-def set_target(tgl):
-    global targLang
-    if tgl == "italian":
-        targLang = 'it'
-    elif tgl == "french":
-        targLang = 'fr'
-    elif tgl == 'german':
-        targLang = 'de'
-    elif tgl == "spanish":
-        targLang = 'es'
-
+    driver.get("https://www.duolingo.com/log-in")
+    emailField = driver.find_element_by_xpath('/html/body/div[5]/div/div/form/div[1]/label[1]/div/input')
+    emailField.send_keys('nneauu@gmail.com')
+    pF = driver.find_element_by_xpath('/html/body/div[5]/div/div/form/div[1]/label[2]/div/input')
+    pF.send_keys('sewd34Rf')
+    driver.find_element_by_xpath('/html/body/div[5]/div/div/form/button').click()
 
 def skill_or_practice():
-	print("Do you want to (A)strengthen skills or (B)practice a topic?")
-	target = input("> ")
-	if target.lower() == "a":
-		driver.get('https://duolingo.com/practice')
-		start_practice()
-	elif target.lower() == "b":
-		practice_topic()
-	else:
-		print("choose a valid option.")
-		skill_or_practice()
+	driver.get('https://www.duolingo.com/practice')
+	start_practice()
 
 def practice_topic():
-    skills = driver.find_elements_by_css_selector('._3qO9M')
-
+    skills = driver.find_elements_by_xpath('//*[@id="root"]/div/div/div/div/div[3]/div/div/div[3]/button[2]')
+    
+    
     list_of_skills = []
     for skill in skills:
     	list_of_skills.append(skill.text)
@@ -157,108 +102,109 @@ def practice_topic():
         driver.find_element_by_class_name('_3ntRm').click()
 
 def start_practice():
-    print( "Do you want to")
-    print( "(a)Practice without a timer, or")
-    print( "(b)Start timed practice")
-    timedOrNot = input("> ")
-    if timedOrNot == 'a':
-        print( "Strengthening skills without timer...")
-        withoutTimer = driver.find_element_by_class_name(untimed)
-        withoutTimer.click()
-    elif timedOrNot == 'b':
-        print( "Strengthening skills with timer...")
-        withTimer = driver.find_element_by_class_name(timed)
-        withTimer.click()
+    withoutTimer = driver.find_element_by_xpath('//*[@id="root"]/div/div/div/div/div[3]/div/div/div[3]/button[1]')
+    withoutTimer.click()
 
 
 def TranslateEngine():
-    print("Type 'end' if at the end, or 'quit' to quit.")
-    print("Else, just hit enter.")
-    while True:
-        try:
-            sleep(1)
-            header_text = driver.find_element_by_xpath('//*[@data-test="challenge-header"]').text
-            if "Write this" in header_text:
-                type_The_trans()
-            elif "Type what you hear" in header_text:
-                type_what_heard()
-            elif "correct meaning" in header_text:
+        header_text = driver.find_element_by_xpath('//*[@id="root"]/div/div/div/div/div[2]/div/div/div/h1/span').text
+        print('The value of current challenge is: ', header_text)
+
+        if "Write this" in header_text:
+            type_The_trans()
+        elif "Type what you hear" in header_text:
+            type_what_heard()
+        elif "Mark the correct meaning" in header_text:
+            mark_Cor_trans()
+        elif "Select the missing word" in header_text:
+            select_missing()
+        elif 'Select the word for' in header_text:
+                word_for(header_text)
                 mark_Cor_trans()
-            elif "Select the missing word" in header_text:
-                select_missing()
-        except:
-            finished_Lesson()
-            break
+        elif 'What sound does this make?' in header_text:
+                word_for(header_text)
+        #except:
+        #    finished_Lesson()
+        #    break
 
+def word_for(a):
+        challenge = '//*[@id="root"]/div/div/div/div/div[2]/div/div/div/div/div[1]/div/div[1]/span'
+        cL = driver.find_element_by_xpath(challenge).text
+        
+        b1 = driver.find_element_by_xpath('//*[@id="root"]/div/div/div/div/div[2]/div/div/div/div/div[2]/div[1]/label/div[2]')
+        b2 = driver.find_element_by_xpath('//*[@id="root"]/div/div/div/div/div[2]/div/div/div/div/div[2]/div[2]/label/div[2]')
+        b3 = driver.find_element_by_xpath('//*[@id="root"]/div/div/div/div/div[2]/div/div/div/div/div[2]/div[3]/label/div[2]')
 
-def type_The_trans():
-    query = []
-    badResponse = ["Correct solution", "used the wrong word", "plural", "instead of", "need the", "missed a word"]
-    global wrongChallenges
-    sText = driver.find_elements_by_xpath('//*[@data-test="hint-token"]')
-    for q in sText:
-        query.append(q.text)
-    tText = ' '.join(query)
-    setLang = translate_client.detect_language(tText)['language']
-    sleep(1)
-    if setLang == 'en':
-        engToFor = translate_client.translate(tText, target_language=targLang)[
-            'translatedText']
-        engToFor = h.unescape(engToFor)
-        try:
-            loadResponse = driver.find_element_by_xpath('//*[@data-test="challenge-translate-input"]')
-        except:
-            driver.find_element_by_class_name('_2TNr1').click()
-            loadResponse = driver.find_element_by_xpath('//*[@data-test="challenge-translate-input"]')
-        loadResponse.send_keys(engToFor)
-        if tText in wrongChallenges:
-            print("This question was counted wrong before. Please type the correct answer.")
-            wrongChallenges.remove(tText)
-            isitRight()
-        loadResponse.send_keys(Keys.ENTER)
-        h2 = driver.find_element_by_tag_name('h2')
-        for b in badResponse:
-            if b in h2.text:
-                wrongChallenges.append(tText)
-    else:
-        foreign_text = apostrophe_checker(query)
-        tText = ' '.join(foreign_text)
-        foreignToEng = translate_client.translate(tText, target_language='en')[
-            'translatedText']
-        foreignToEng = h.unescape(foreignToEng)
-        try:
-            loadResponse = driver.find_element_by_xpath('//*[@data-test="challenge-translate-input"]')
-        except:
-            driver.find_element_by_class_name('_2TNr1').click()
-            loadResponse = driver.find_element_by_xpath('//*[@data-test="challenge-translate-input"]')
-        loadResponse.send_keys(foreignToEng)
-        if tText in wrongChallenges:
-            print("This question was counted wrong before. Please type the correct answer.")
-            wrongChallenges.remove(tText)
-            isitRight()
-        loadResponse.send_keys(Keys.ENTER)
-        h2 = driver.find_element_by_tag_name('h2')
-        for b in badResponse:
-            if b in h2.text:
-                wrongChallenges.append(tText)
-    reset_wait_n_go()
+        a1 = b1.text
+        a2 = b2.text
+        a3 = b3.text
 
+        print('challenge is ', cL)
+        if 'وي' in cL:
+                ca = 'wii'
+        elif 'زود' in cL:
+                ca = 'zuud'
+        elif 'زو' in cL:
+                ca = 'zuu'
+        elif 'وا' in cL:
+                ca = 'waa'
+        elif 'دَ' in cL:
+                ca = 'da'
+        elif 'دا' in cL:
+                ca = 'daa'
+        elif 'زَ' in cL:
+                ca = 'za'
+        elif 'ي' in cL:
+                ca = 'ii'
+        else:
+                ca = '[blank ca]'
+                print('could not find correct answer for ', cL, 'options are ', a1, a2, a3, '[', ca, ']', sep=' ')
+        print('ca is: ', ca)
+
+        sleep(1)
+        if cL in a1:
+                b1.click()
+                driver.find_element_by_xpath('//*[@id="root"]/div/div/div/div/div[2]/div/div/div/div/div[1]/div[2]/label').click()        
+        elif cL in a2:
+                b2.click()
+                driver.find_element_by_xpath('//*[@id="root"]/div/div/div/div/div[2]/div/div/div/div/div[2]/div[2]/label').click()        
+        elif cL in a3:
+                b3.click()
+                driver.find_element_by_xpath('//*[@id="root"]/div/div/div/div/div[2]/div/div/div/div/div[3]/div[2]/label').click()        
+        else:
+                print('Unhandled exception,', cL, a1, a2, a3)
+
+        sleep(3)
+        driver.find_element_by_xpath('//*[@id="root"]/div/div/div/div/div[3]/div/div/div[3]/button..\.').click()
+
+        sleep(3)
 
 def mark_Cor_trans():
     query = []
-    initsentence = driver.find_element_by_class_name('KRKEd')
+    initsentence = driver.find_element_by_xpath('//*[@id="root"]/div/div/div/div/div[2]/div/div/div/div/div[1]')
     text = initsentence.text
-    translation = translate_client.translate(
-        text, target_language=targLang)['translatedText']
+    print('#bdb Text to be evaluated is ', text)
+    translation = translate_client.translate(text, target_language='de')['translatedText']
     translation = h.unescape(translation)
-    choices = driver.find_elements_by_xpath(
-        '//*[@data-test="challenge-judge-options"]//li')
+
+    if text == 'The beatles are eating the bananas.':
+        translation = 'Die Käfer essen die Bananen'
+    elif text == 'The bird is eating the flies.':
+        translation = 'Der Vogel frisst die Fliegen'
+    elif text == 'The cows have flies.':
+        translation = 'Die Kühe haben Fliegen'
+            
+    print('#bdb Translation is: ', translation)
+    choices = driver.find_elements_by_xpath('//*[@id="root"]/div/div/div/div/div[2]/div/div/div/div/ul/li')
     for choice in choices:
+        print('Trying choice: ', choice.text)
+        print('choice is :', choice)
         query.append(choice.text)
     correctedText = similarity(translation, query)
     tickboxes = driver.find_elements_by_xpath("//*[@data-test='challenge-judge-options']//label")
     for box in tickboxes:
         if correctedText in box.text:
+            print('#bdb box.text = ', box.text, 'also, ', box)
             box.click()
     print( "I've selected: ")
     print( correctedText )
@@ -333,14 +279,11 @@ def finished_Lesson():
 
 # Commands listed here.
 if __name__ == "__main__":
-	welcome()
-	setup()
-	while (rerun == 'yes'):
+	welcome();sleep(5)
+	while True:
 	    try:
-	        detect_my_language()
 	        skill_or_practice()
 	        TranslateEngine()
-	        rerun = input("Run again? Type yes or no: ")
 	    except Exception as e:
 	        raise e
 	        break
