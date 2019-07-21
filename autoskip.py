@@ -28,7 +28,7 @@ driver = driver.Chrome(options=chrome_options)
 driver.implicitly_wait(5)
 driver.maximize_window()
 skipped = 0
-d = {'وا':'waa','رَ':'ra','دَ':'da','وي':'wii','دا':'daa','زود':'zuud','زار':'zaar','داد':'daad','زَ':'za','وَ':'w','زو':'zuu','راي':'raay','يَ':'ya','زي':'zii','زو':'zuu','دي':'dii','زا':'zaa','رو':'ruu','رود':'ruud','رَ':'ra','را':'raa','دور':'duur','ي':'ii','دو':'duu','دود':'duud','و':'uu','راو':'raaw','ا':'a'}
+d = {'وا':'waa','رَ':'ra','دَ':'da','وي':'wii','دا':'daa','زود':'zuud','زار':'zaar','داد':'daad','زَ':'za','وَ':'wa','زو':'zuu','راي':'raay','يَ':'ya','زي':'zii','زو':'zuu','دي':'dii','زا':'zaa','رو':'ruu','رود':'ruud','رَ':'ra','را':'raa','دور':'duur','ي':'ii','دو':'duu','دود':'duud','و':'uu','راو':'raaw','ا':'aa','وو':'wuu','ري':'rii'}
 
 #Begin 
 driver.get("https://www.duolingo.com/log-in")
