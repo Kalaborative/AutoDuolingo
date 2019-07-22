@@ -52,7 +52,7 @@ def url():
 
 def solve():
     challenge = x('//*[@id="root"]/div/div/div/div/div[2]/div/div/div/h1/span').text    
-    print('\nNew challenge: ',challenge)
+    print('\nNew challenge: ', challenge)
     try:
         if 'Match the pairs' in challenge:
             print('TYPE: Math the pairs')
@@ -90,7 +90,7 @@ def solve():
             x('//*[@id="root"]/div/div/div/div/div[3]/div/div/div[4]/button').click()
             sleep(0.5)               
         else:
-            print('ENTERED ELSE, SKIPPING for'       )
+            print('No answer set for challenge, skipping question. Challenge is: ', challenge)
             skip()
     except:
         print('\nNo more challenges detected, refreshing', challenge)
