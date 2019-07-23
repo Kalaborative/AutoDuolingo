@@ -13,7 +13,6 @@ email = ''
 #print('Enter pass: ')
 passw = ''
 
-
 global driver
 driver = webdriver
 chrome_options = Options()
@@ -28,10 +27,13 @@ driver = driver.Chrome(options=chrome_options)
 driver.implicitly_wait(5)
 driver.maximize_window()
 skipped = 0
-d = {'وا':'waa','رَ':'ra','دَ':'da','وي':'wii','دا':'daa','زود':'zuud','زار':'zaar','داد':'daad','زَ':'za','وَ':'wa','زو':'zuu','راي':'raay','يَ':'ya','زي':'zii','زو':'zuu','دي':'dii','زا':'zaa','رو':'ruu','رود':'ruud','رَ':'ra','را':'raa','دور':'duur','ي':'ii','دو':'duu','دود':'duud','و':'uu','راو':'raaw','ا':'aa','وو':'wuu','ري':'rii'}
+dAr = {'وا':'waa','رَ':'ra','دَ':'da','وي':'wii','دا':'daa','زود':'zuud','زار':'zaar','داد':'daad','زَ':'za','وَ':'wa','زو':'zuu','راي':'raay','يَ':'ya','زي':'zii','زو':'zuu','دي':'dii','زا':'zaa','رو':'ruu','رود':'ruud','رَ':'ra','را':'raa','دور':'duur','ي':'ii','دو':'duu','دود':'duud','و':'uu','راو':'raaw','ا':'aa','وو':'wuu','ري':'rii'}
+dJa = {'あ':'a', 'い':'i', 'う':'u', 'お':'o', 'か','ka', 'く':'ku', 'さ':'sa', 'し':'shi', 'ち':'chi', 'に':'ni', 'は':'ha', 'よ':'yo'}
+
 
 #Begin 
 driver.get("https://www.duolingo.com/log-in")
+sleep(2)
 driver.find_element_by_xpath('/html/body/div[5]/div/div/form/div[1]/label[1]/div/input').send_keys(email)
 driver.find_element_by_xpath('/html/body/div[5]/div/div/form/div[1]/label[2]/div/input').send_keys(passw)
 driver.find_element_by_xpath('/html/body/div[5]/div/div/form/button').click()
@@ -47,7 +49,7 @@ def skip():
     sleep(0.5)
 
 def url():
-    driver.get('https://www.duolingo.com/skill/ar/Alphabet1/practice')
+    driver.get('https://www.duolingo.com/skill/ja/Hiragana-1/practice')
     x('//*[@id="root"]/div/div/div/div/div[3]/div/div/div[3]/button[2]').click()
 
 def solve():
@@ -58,11 +60,11 @@ def solve():
             print('TYPE: Math the pairs')
             skip()
         elif 'What sound does this make?' in challenge:
-            print('TYPE: What sound does this make?')
             challengeLetter = x('//*[@id="root"]/div/div/div/div/div[2]/div/div/div/div/div[1]/div/div[1]/span').text
             print('Challenge is: ', challengeLetter)
+            d = dJa
             c = d.get(challengeLetter)
-            print('Answer should be: ', c)
+            print('For challenge', challenge, '\nAnswer should be: ', c)
 
             a1 = x('//*[@id="root"]/div/div/div/div/div[2]/div/div/div/div/div[2]/div[1]/label/div[2]').text
             print('Answer1: ', a1)
@@ -88,7 +90,7 @@ def solve():
             x('//*[@id="root"]/div/div/div/div/div[3]/div/div/div[3]/button').click()
             # Continue
             x('//*[@id="root"]/div/div/div/div/div[3]/div/div/div[4]/button').click()
-            sleep(0.5)               
+            sleep(0.3)               
         else:
             print('No answer set for challenge, skipping question. Challenge is: ', challenge)
             skip()
