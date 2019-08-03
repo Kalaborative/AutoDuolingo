@@ -9,9 +9,9 @@ from time import sleep
 
 print("Here we go!")
 #print('Enter email: ')
-email = ''
+email = 'nneauu@gmail.com'
 #print('Enter pass: ')
-passw = ''
+passw = 'sewd34Rf'
 
 global driver
 driver = webdriver
@@ -28,7 +28,7 @@ driver.implicitly_wait(5)
 driver.maximize_window()
 skipped = 0
 dAr = {'وا':'waa','رَ':'ra','دَ':'da','وي':'wii','دا':'daa','زود':'zuud','زار':'zaar','داد':'daad','زَ':'za','وَ':'wa','زو':'zuu','راي':'raay','يَ':'ya','زي':'zii','زو':'zuu','دي':'dii','زا':'zaa','رو':'ruu','رود':'ruud','رَ':'ra','را':'raa','دور':'duur','ي':'ii','دو':'duu','دود':'duud','و':'uu','راو':'raaw','ا':'aa','وو':'wuu','ري':'rii'}
-dJa = {'あ':'a', 'い':'i', 'う':'u', 'お':'o', 'か','ka', 'く':'ku', 'さ':'sa', 'し':'shi', 'ち':'chi', 'に':'ni', 'は':'ha', 'よ':'yo', 'ん':'n'}
+dJa = {'あ':'a', 'い':'i', 'う':'u', 'お':'o', 'か':'ka', 'く':'ku', 'さ':'sa', 'し':'shi', 'ち':'chi', 'に':'ni', 'は':'ha', 'よ':'yo', 'ん':'n', 'な':'na', 'ろ':'ro'}
 
 
 #Begin 
@@ -46,10 +46,10 @@ def skip():
     print('Skipping...')
     x('//*[@id="root"]/div/div/div/div/div[3]/div/div/div[1]/button').click()
     x('//*[@id="root"]/div/div/div/div/div[3]/div/div/div[4]/button').click()
-    sleep(0.5)
+    sleep(0.1) #was 0.5
 
 def url():
-    driver.get('https://www.duolingo.com/skill/ja/Hiragana-1/practice')
+    driver.get('https://www.duolingo.com/skill/ar/Alphabet1/practice')
     x('//*[@id="root"]/div/div/div/div/div[3]/div/div/div[3]/button[2]').click()
 
 def solve():
@@ -62,26 +62,41 @@ def solve():
         elif 'What sound does this make?' in challenge:
             challengeLetter = x('//*[@id="root"]/div/div/div/div/div[2]/div/div/div/div/div[1]/div/div[1]/span').text
             print('Challenge is: ', challengeLetter)
-            d = dJa
+            d = dAr
             c = d.get(challengeLetter)
             print('For challenge', challenge, '\nAnswer should be: ', c)
-
-            a1 = x('//*[@id="root"]/div/div/div/div/div[2]/div/div/div/div/div[2]/div[1]/label/div[2]').text
-            print('Answer1: ', a1)
-            a2 = x('//*[@id="root"]/div/div/div/div/div[2]/div/div/div/div/div[2]/div[2]/label/div[2]').text
-            print('Answer2: ', a2)
-            a3 = x('//*[@id="root"]/div/div/div/div/div[2]/div/div/div/div/div[2]/div[3]/label/div[2]').text
-            print('Answer3: ', a3)
             
+            # Testing button clicks
+            #x('//*[@id="root"]/div/div/div/div/div[2]/div/div/div/div/div[2]/ul/li[1]/label').click()
+            #print('Variant 1')
+            #sleep(3)
+
+            #x('//*[@id="root"]/div/div/div/div/div[2]/div/div/div/div/div[2]/ul/li[1]/label/div[2]').click()
+            #print('Variant 2')
+            #sleep(3)
+
+            #x('//*[@id="root"]/div/div/div/div/div[2]/div/div/div/div/div[2]/ul/li[1]/label/input').click()
+            #print('Variant 3')
+            #sleep(3)
+
+
+            a1 = x('//*[@id="root"]/div/div/div/div/div[2]/div/div/div/div/div[2]/ul/li[1]/label/div[2]').text
+            print('Answer1: ', a1)
+            a2 = x('//*[@id="root"]/div/div/div/div/div[2]/div/div/div/div/div[2]/ul/li[2]/label/div[2]').text
+            print('Answer2: ', a2)
+            a3 = x('//*[@id="root"]/div/div/div/div/div[2]/div/div/div/div/div[2]/ul/li[3]/label/div[2]').text
+            print('Answer3: ', a3)
+
             if c == a1:
                 print('>>1')
-                x('//*[@id="root"]/div/div/div/div/div[2]/div/div/div/div/div[2]/div[1]/label/div[2]').click()
+                x('//*[@id="root"]/div/div/div/div/div[2]/div/div/div/div/div[2]/ul/li[1]/label').click()
             elif c == a2:
                 print('>>2')
-                x('//*[@id="root"]/div/div/div/div/div[2]/div/div/div/div/div[2]/div[2]/label/div[2]').click()
+                x('//*[@id="root"]/div/div/div/div/div[2]/div/div/div/div/div[2]/ul/li[1]/label').click()
             elif c == a3:
                 print('>>3')
-                x('//*[@id="root"]/div/div/div/div/div[2]/div/div/div/div/div[2]/div[3]/label/div[2]').click()
+                #x('//*[@id="root"]/div/div/div/div/div[2]/div/div/div/div/div[2]/div[3]/label/div[2]').click()
+                x('//*[@id="root"]/div/div/div/div/div[2]/div/div/div/div/div[2]/ul/li[1]/label').click()
             else:
                 print('Challenge not found, letter: ', challengeLetter, ', Options', b1.text, b2.text, b3.text)
                 skip()
@@ -90,7 +105,10 @@ def solve():
             x('//*[@id="root"]/div/div/div/div/div[3]/div/div/div[3]/button').click()
             # Continue
             x('//*[@id="root"]/div/div/div/div/div[3]/div/div/div[4]/button').click()
-            sleep(0.3)               
+            sleep(0.1) #works with 0.3
+        #elif  in challenge:
+        #    print('HA GOTEM')
+        #    skip()
         else:
             print('No answer set for challenge, skipping question. Challenge is: ', challenge)
             skip()
