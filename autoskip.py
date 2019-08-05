@@ -9,9 +9,9 @@ from time import sleep
 
 print("Here we go!")
 #print('Enter email: ')
-email = 'nneauu@gmail.com'
+email = ''
 #print('Enter pass: ')
-passw = 'sewd34Rf'
+passw = ''
 
 global driver
 driver = webdriver
@@ -48,38 +48,43 @@ def skip():
     x('//*[@id="root"]/div/div/div/div/div[3]/div/div/div[4]/button').click()
     sleep(0.1) #was 0.5
 
+def whichone(challenge):
+    cw = re.findall('(\w+).\?', challenge)
+    print('cw = ', cw)
+    if cw:
+        print('tryna crack')
+    else:
+        print('Could not find match with ', challenge, 'see whichone()')
+        skip()
+
+
+
 def url():
-    driver.get('https://www.duolingo.com/skill/ar/Alphabet1/practice')
+    #driver.get('https://www.duolingo.com/skill/ar/Alphabet1/practice')
+    driver.get('https://www.duolingo.com/skill/ja/Hiragana-1/practice')
     x('//*[@id="root"]/div/div/div/div/div[3]/div/div/div[3]/button[2]').click()
 
 def solve():
-    challenge = x('//*[@id="root"]/div/div/div/div/div[2]/div/div/div/h1/span').text    
+    challenge = x('//*[@id="root"]/div/div/div/div/div[2]/div/div/div/h1/span').text
     print('\nNew challenge: ', challenge)
     try:
         if 'Match the pairs' in challenge:
             print('TYPE: Math the pairs')
             skip()
+        elif 'Which one of these is' in challenge:
+            try:
+                print('whichone(challenge)?')
+                whichone(challenge)
+            except:
+                skip()
         elif 'What sound does this make?' in challenge:
             challengeLetter = x('//*[@id="root"]/div/div/div/div/div[2]/div/div/div/div/div[1]/div/div[1]/span').text
             print('Challenge is: ', challengeLetter)
-            d = dAr
+            d = dJa #dAr?
             c = d.get(challengeLetter)
             print('For challenge', challenge, '\nAnswer should be: ', c)
-            
-            # Testing button clicks
-            #x('//*[@id="root"]/div/div/div/div/div[2]/div/div/div/div/div[2]/ul/li[1]/label').click()
-            #print('Variant 1')
-            #sleep(3)
 
-            #x('//*[@id="root"]/div/div/div/div/div[2]/div/div/div/div/div[2]/ul/li[1]/label/div[2]').click()
-            #print('Variant 2')
-            #sleep(3)
-
-            #x('//*[@id="root"]/div/div/div/div/div[2]/div/div/div/div/div[2]/ul/li[1]/label/input').click()
-            #print('Variant 3')
-            #sleep(3)
-
-
+            # Debug view, listing the challenge and some of the answers
             a1 = x('//*[@id="root"]/div/div/div/div/div[2]/div/div/div/div/div[2]/ul/li[1]/label/div[2]').text
             print('Answer1: ', a1)
             a2 = x('//*[@id="root"]/div/div/div/div/div[2]/div/div/div/div/div[2]/ul/li[2]/label/div[2]').text
@@ -95,7 +100,6 @@ def solve():
                 x('//*[@id="root"]/div/div/div/div/div[2]/div/div/div/div/div[2]/ul/li[1]/label').click()
             elif c == a3:
                 print('>>3')
-                #x('//*[@id="root"]/div/div/div/div/div[2]/div/div/div/div/div[2]/div[3]/label/div[2]').click()
                 x('//*[@id="root"]/div/div/div/div/div[2]/div/div/div/div/div[2]/ul/li[1]/label').click()
             else:
                 print('Challenge not found, letter: ', challengeLetter, ', Options', b1.text, b2.text, b3.text)
@@ -110,7 +114,7 @@ def solve():
         #    print('HA GOTEM')
         #    skip()
         else:
-            print('No answer set for challenge, skipping question. Challenge is: ', challenge)
+            print('Reached exception on main while\nNo answer set for challenge, skipping question. Challenge is: ', challenge)
             skip()
     except:
         print('\nNo more challenges detected, refreshing', challenge)
