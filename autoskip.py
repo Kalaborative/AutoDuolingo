@@ -58,7 +58,6 @@ def whichone(challenge):
         skip()
 
 
-
 def url():
     #driver.get('https://www.duolingo.com/skill/ar/Alphabet1/practice')
     driver.get('https://www.duolingo.com/skill/ja/Hiragana-1/practice')
@@ -110,9 +109,6 @@ def solve():
             # Continue
             x('//*[@id="root"]/div/div/div/div/div[3]/div/div/div[4]/button').click()
             sleep(0.1) #works with 0.3
-        #elif  in challenge:
-        #    print('HA GOTEM')
-        #    skip()
         else:
             print('Reached exception on main while\nNo answer set for challenge, skipping question. Challenge is: ', challenge)
             skip()
