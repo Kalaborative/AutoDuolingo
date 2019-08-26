@@ -1,16 +1,16 @@
+import os
+from html.parser import HTMLParser
+from sys import exit
+from time import sleep
+
 # import necessary modules
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support import expected_conditions as EC
-from time import sleep
-from google.cloud import translate
-from Seqmatch import similarity, apostrophe_checker
-from html.parser import HTMLParser
-from sys import exit
-import os
+from selenium.webdriver.support.ui import WebDriverWait
+from Seqmatch import apostrophe_checker, similarity
 
 # set global vars
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "cloudcreds.json"
