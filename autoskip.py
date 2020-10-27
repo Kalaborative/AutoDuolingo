@@ -6,12 +6,13 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from time import sleep
+import pickle
 
 print("Here we go!")
 #print('Enter email: ')
-email = ''
+email = 'nneauu@gmail.com'
 #print('Enter pass: ')
-passw = ''
+passw = 'sewd34Rf'              
 
 global driver
 driver = webdriver
@@ -30,13 +31,27 @@ skipped = 0
 dAr = {'وا':'waa','رَ':'ra','دَ':'da','وي':'wii','دا':'daa','زود':'zuud','زار':'zaar','داد':'daad','زَ':'za','وَ':'wa','زو':'zuu','راي':'raay','يَ':'ya','زي':'zii','زو':'zuu','دي':'dii','زا':'zaa','رو':'ruu','رود':'ruud','رَ':'ra','را':'raa','دور':'duur','ي':'ii','دو':'duu','دود':'duud','و':'uu','راو':'raaw','ا':'aa','وو':'wuu','ري':'rii'}
 dJa = {'あ':'a', 'い':'i', 'う':'u', 'お':'o', 'か':'ka', 'く':'ku', 'さ':'sa', 'し':'shi', 'ち':'chi', 'に':'ni', 'は':'ha', 'よ':'yo', 'ん':'n', 'な':'na', 'ろ':'ro'}
 
+d = {'key':'value','key2':'value2'}
+
+with open('dictionary-latin', 'wb') as handle:
+    pickle.dump(d, handle)
+
+with open('dictionary-latin', 'rb') as handle:
+    b = pickle.load(handle)
+
+for i in d:
+    print(i)
+
+for i in b:
+    print(i)
+
 
 #Begin 
 driver.get("https://www.duolingo.com/log-in")
 sleep(2)
-driver.find_element_by_xpath('/html/body/div[5]/div/div/form/div[1]/label[1]/div/input').send_keys(email)
-driver.find_element_by_xpath('/html/body/div[5]/div/div/form/div[1]/label[2]/div/input').send_keys(passw)
-driver.find_element_by_xpath('/html/body/div[5]/div/div/form/button').click()
+driver.find_element_by_xpath('//*[@id="overlays"]/div[5]/div/div/form/div[1]/div[1]/div[1]/label/div/input').send_keys(email)
+driver.find_element_by_xpath('//*[@id="overlays"]/div[5]/div/div/form/div[1]/div[1]/div[2]/label/div[1]/input').send_keys(passw)
+driver.find_element_by_xpath('//*[@id="overlays"]/div[5]/div/div/form/div[1]/button').click()
 sleep(5)
 
 def x(xpath):
@@ -59,14 +74,14 @@ def whichone(challenge):
 
 
 def url():
-    #driver.get('https://www.duolingo.com/skill/ar/Alphabet1/practice')
-    driver.get('https://www.duolingo.com/skill/ja/Hiragana-1/practice')
-    x('//*[@id="root"]/div/div/div/div/div[3]/div/div/div[3]/button[2]').click()
+    driver.get('https://www.duolingo.com/practice')
 
 def solve():
-    challenge = x('//*[@id="root"]/div/div/div/div/div[2]/div/div/div/h1/span').text
+    challenge = x('//*[@id="root"]/div/div/div/div/div[2]/div/div/div/div/div[1]/h1/span').text
     print('\nNew challenge: ', challenge)
     try:
+        if 'Mark the correct meaning' in challenge:
+            print('TODO: Mark')
         if 'Match the pairs' in challenge:
             print('TYPE: Math the pairs')
             skip()
