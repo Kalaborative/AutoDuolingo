@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "top-reef-310505",
+  "private_key_id": "45336e6cabf25da0f290a45506c34960f9c615e8",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEuwIBADANBgkqhkiG9w0BAQEFAASCBKUwggShAgEAAoIBAQCq51KB/9466Slm\nTtPtqkRtR8ePqMpJIBKuh4wvNAhlZQ9CKo6JvBQZ8ukseGcO3pJUK0oO7GdDsfnQ\nIcMQWy6V3R6VgDI4ZLtTf+hYQcXRx6EKxC5b8D2aNZLnc10PurGqNjoSd/GvFKrd\nLWw8pgTeihqc739d+d6C6yffxS5/6yKXIhalb4oKrSt3BHYYB+Qg3maDZF62e6AX\nWMmqT80ukl/cEH58uE1levWkDvNK+3vKFwtRTnYODQKpAhGCZXQBBPY6urivBuNE\nQklkMRGElI1ub6TwJH7ZXYi1guB8TQ5WpfAlyTJ10Q3yFIl3ZOPgySkgYegQkUIg\nBCJ4SCMpAgMBAAECgf95VUF+iel8aYy61bwgP4HVE+DaXTtAL0UUI6ei244abmUm\n1I/duWmMAqkIqXKBXAMHPrSVY8Dsjq6M1WtncVThkNrlyN3eq6VS4rxR7GBFTzVG\nL4G6RBV4JhDlwUGQqTr5XQZdlko/wqyL2nO9myBZ3jKGuIH0djFDQTBN7e/VYDFp\nr6p5h0O7GRmb2ZhY0HvMTk3CfcA62B//IClVWZkcGy8wGVIa3xQ/Bhgq9z+fIa1e\nK8KV6l5w8X6ekaBXE4gRQD57qhMKthZjC4qJ9DLcLH5SDuqqTGKUPVE6M2T5EfLI\n/jfS0RP1NiparxxT/0Na3NU2MCy+fM6e+8zePY0CgYEA02bxIP1H20v3zomxtur2\nIMdjbecFO8dP//RT9xlAakPsr0inidlO7UWuMUNalp4HBIq4f94HO1tQfrKwh/B4\n7GCtCJKZXZvQspLU/Yur9v5KzUQsgaNsfCia/akI+HNtXPfFDdIATtHEFzg6CLNh\n8WigELRiPDqloKA4+GDnR6UCgYEAzvU0BJJmurRWhooXp05MGoUW0nz38mF6tSME\nmZQ2kc6Kg3DarqEHOTlcTzMx1r4GtTk+rDB6Wj1jhDnWpjiMlBnIhicG3Wz0gvQl\nNeU0IXokoYmeAYhHQeUNV1T9bqgWYlhFPLtDN8QJ+RkkJeYEOikbGQV/p7SXZjAn\niKvrtjUCgYAljN595p9x44+T3z9y509qyR/vMJ7sXF3ocATOGm0nswMCq5wezzvG\nx57GX1li8ZT7iIx3IgAU2gZ1StYyf1NrYUy6/hdB2mB6p7wvgTS9fbPZvCdPq7Ck\naS4GqpTOVOpzHguhhdDKL1ZubW1ZiEt4bwYnkXL1kdFDs9IKxGOwhQKBgQDKFQID\nCNVIr7jhTEwGcNy89IGxbJdLVEXWQ2hFckTKoOv9pp/R7qi4BruNFkcvEYRJRqlc\nx0Vhghn/Td67lfIm1vpHjCoW4kHq8Oy4sKLzoWnNViw0ANbbkAYz5WhFudmJk/mf\ncJcVB9ZZJmR2oSA1jlfIWecpYZyICrM/r+fMlQKBgFiVBKGT/u/VMVpB3LNaHk2y\nknGsphR6MCb36dBlbu5I45gPrwHKmnm/dhucYesD2aCl9JFw+ZbWCj6OAPeYlvJu\nwqvhiVl2IBdsL/DXL2vSEpb6xJwbeA0MQAfhJB7ekj/oBt9k/LV9es7mxkaTQ9y+\nakz6iOS2mqHQzb5ETnDP\n-----END PRIVATE KEY-----\n",
+  "client_email": "autoduolingo@top-reef-310505.iam.gserviceaccount.com",
+  "client_id": "115961008161913486240",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/autoduolingo%40top-reef-310505.iam.gserviceaccount.com"
+}
